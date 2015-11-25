@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding=utf-8
 # Copyright (c) 2015 CapsLock, Studio All Rights Reserved.
-
 import os
 import sys
 import uuid
@@ -15,9 +14,8 @@ def main():
         check_first = argv == sys.argv[1] and not re.match('^\-', argv)
         if store_arg is not None or check_first:
             if check_first:
-                data['-i'] = argv
-            else:
-                data[store_arg] = argv
+                store_arg = '-i'
+            data[store_arg] = argv
             store_arg = None
         if re.match('^\-', argv):
             store_arg = argv
@@ -30,7 +28,11 @@ def main():
     try:
         data['--help']
         print '\nUse tar and ssh to upload file to the folder.'
-        print 'Usage: %s -i input_file -h host [-o output_path] [-t temp_folder]'
+        print 'Usage: upload ' \
+            '-i input_file' \
+            '-h host' \
+            '[-o output_path]' \
+            '[-t temp_folder]'
         print '\temail: michael34435[at]gmail.com'
         sys.exit(0)
     except Exception as e:
@@ -42,7 +44,7 @@ def main():
         print e
         sys.exit(0)
     temp_folder = data.get('-t', '~')
-    output_path = data.get('-o', '~')
+    output_path = data.get('-o', temp_folder)
     _file = str(uuid.uuid1())
     temp_gz_file = '%s/%s.tar.gz' % (temp_folder, _file)
     cmd = 'tar -zc %s' % input_file
