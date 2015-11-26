@@ -8,7 +8,7 @@ setup(
     name='python-upload',
     url='https://github.com/CapsLock-Studio/python-upload',
     zip_safe=True,
-    version='0.2a',
+    version='0.2a2',
     entry_points={
         'console_scripts': [
             'upload=upload:main'
