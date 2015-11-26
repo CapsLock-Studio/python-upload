@@ -34,31 +34,30 @@ def build():
             '[-t temp_folder]'
         print '\temail: michael34435[at]gmail.com'
         sys.exit(0)
-    except Exception as e:
-        pass
-    try:
-        input_file = data.get('-i', (_ for _ in ()).throw(Exception('argument `-i’ is required.')))
-        host = data.get('-h', (_ for _ in ()).throw(Exception('argument `-h’ is required.')))
-    except Exception as e:
-        print e
-        sys.exit(0)
-    output_path = data.get('-o', '~')
-    temp_folder = data.get('-t', output_path)
-    temp_file_name = str(uuid.uuid1())
-    temp_gz_file = '%s/%s.tar.gz' % (temp_folder, temp_file_name)
-    for single_input_file in input_file:
-        cmd = ''.join([
-            'tar -zc %s' % single_input_file,
-            ' | ',
-            'ssh %s ' % host,
-            '"%s"'
-        ]) % ''.join([
-            'cat > %s' % temp_gz_file,
-            ' && ',
-            'tar zxvf %s -C %s --touch; ' % (temp_gz_file, output_path),
-            'rm -rf %s' % temp_gz_file
-        ])
-        os.system(cmd)
+    except Exception:
+        try:
+            input_file = data.get('-i', (_ for _ in ()).throw(Exception('argument `-i’ is required.')))
+            host = data.get('-h', (_ for _ in ()).throw(Exception('argument `-h’ is required.')))
+        except Exception as e:
+            print e
+            sys.exit(0)
+        output_path = data.get('-o', '~')
+        temp_folder = data.get('-t', output_path)
+        temp_file_name = str(uuid.uuid1())
+        temp_gz_file = '%s/%s.tar.gz' % (temp_folder, temp_file_name)
+        for single_input_file in input_file:
+            cmd = ''.join([
+                'tar -zc %s' % single_input_file,
+                ' | ',
+                'ssh %s ' % host,
+                '"%s"'
+            ]) % ''.join([
+                'cat > %s' % temp_gz_file,
+                ' && ',
+                'tar zxvf %s -C %s --touch; ' % (temp_gz_file, output_path),
+                'rm -rf %s' % temp_gz_file
+            ])
+            os.system(cmd)
 
 
 def main():
