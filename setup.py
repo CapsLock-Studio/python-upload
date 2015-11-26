@@ -11,7 +11,7 @@ setup(
     version='0.2a2',
     entry_points={
         'console_scripts': [
-            'upload=upload:main'
+            'upload=upload.upload:main'
         ]
     },
 )
