@@ -33,7 +33,6 @@ def build():
             '[-o output_path]' \
             '[-t temp_folder]'
         print '\temail: michael34435[at]gmail.com'
-        sys.exit(0)
     except Exception:
         try:
             input_file = data.get('-i', (_ for _ in ()).throw(Exception('argument `-i’ is required.')))
