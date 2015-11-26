@@ -9,17 +9,13 @@ import re
 
 def build():
     data = {}
-    store_arg = None
-    for argv in sys.argv[1:]:
-        check_first = argv == sys.argv[1] and not re.match('^\-', argv)
-        if store_arg is not None or check_first:
-            if check_first:
-                store_arg = '-i'
-            data[store_arg] = argv
-            store_arg = None
-        if re.match('^\-', argv):
-            store_arg = argv
-            data[store_arg] = None
+    for key, argv in enumerate(sys.argv[1:]):
+        is_flag = re.match('^\-', argv)
+        if not is_flag:
+            argv_index = sys.argv[key - 1]
+            if argv == sys.argv[1]:
+                argv_index = '-i'
+            data[argv_index] = argv
     temp_folder = None
     input_file = None
     host = None
